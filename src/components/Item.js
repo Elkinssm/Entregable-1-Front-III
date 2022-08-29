@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../index.css";
 // El componente Item no tiene componentes hijos.
 // ESTADO: Item debe tener un número para almacenar la cantidad de stock, la misma se la defina el padre a la hora de crearlo.
@@ -11,23 +11,39 @@ import "../index.css";
 //    button       (este boton debe permitir comprar, pero si la cantidad es menor a 0 debe estar deshabilitado y decir "Sin stock")
 
 export default function Item({ data }) {
-  const [stock, setStock] = useState();
-  const handletStock = () => {};
-  const buyProduct = () =>{};
+  const [stock, setStock] = useState([]);
+  // const handletStock = () => { };
+
+  const buyProduct = (product) => {
+    setStock(
+      stock.map((item) => {
+        if (item.id === product.id) {
+          item.stock = item.stock - 1;
+        }
+        return item;
+      })
+    );
+  };
+
+  useEffect(() => {
+    setStock(data)
+  }, [])
+
 
   return (
-    <div className="producto">
-      {/* maquetar Item aquí */}
-      {data.map((product) => (
-        <>
+    <>
+      {stock.map((product) => (
+        <div className="producto">
+          {/* maquetar Item aquí */}
           <h3>{product.producto.nombre}</h3>
           <p>{product.producto.descripcion}</p>
           <h5>
-            En stock :<span>5</span>
+            En stock: {product.stock > 0 ? product.stock : <span>agotado</span>}
           </h5>
-          <button>Comprar</button>
-        </>
+          <button onClick={() => buyProduct(product)} disabled={product.stock < 1}> {product.stock > 0 ? "COMPRAR" : "SIN STOCK"}</button>
+        </div>
       ))}
-    </div>
+    </>
+
   );
 }
