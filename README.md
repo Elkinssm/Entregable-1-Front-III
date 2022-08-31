@@ -6,4 +6,4 @@ En cada uno de los componentes está detallado su funcionamiento.
 
 Aquí pueden ver una demo del funcionamiento de la aplicación.
 
-![Demo-app.gif]
+![](Demo-app.gif)
